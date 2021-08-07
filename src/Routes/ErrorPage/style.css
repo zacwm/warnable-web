@@ -1,0 +1,43 @@
+.ErrorParent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+}
+
+.ErrorParent .emoji {
+  font-size: 5em;
+}
+
+.ErrorParent .mainText {
+  font-size: 3em;
+  font-weight: 600;
+  margin: 15px 0 10px 0;
+}
+
+.ErrorParent button {
+  display: block;
+  width: fit-content;
+  margin: 30px auto 0 auto;
+  padding: 5px 15px;
+  font-size: 1.15em;
+  background: none;
+  border: solid 2px #bbb;
+  border-radius: 5px;
+  color: #bbb;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 600;
+  transition: 0.15s ease;
+}
+
+.ErrorParent button:hover {
+  border: solid 2px #9b59b6;
+  color: #9b59b6;
+}
