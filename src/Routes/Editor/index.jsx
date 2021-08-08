@@ -126,7 +126,7 @@ export default function Editor() {
         }
       </div>
       <div className="Footer">
-        <p><a href="https://github.com/zacimac/warnable-web" target="_blank" rel="noreferrer">warnable-web</a> @ <a href={ `https://github.com/zacimac/warnable-web/commit/${process.env.WW_VERSION || ''}` } target="_blank" rel="noreferrer">{process.env.WW_VERSION ? process.env.WW_VERSION.substring(0, 7) : 'dev'}</a></p>
+        <p><a href="https://github.com/zacimac/warnable-web" target="_blank" rel="noreferrer">warnable-web</a> @ <a href={ `https://github.com/zacimac/warnable-web/commit/${process.env.REACT_APP_GIT_SHA || ''}` } target="_blank" rel="noreferrer">{process.env.REACT_APP_GIT_SHA ? process.env.REACT_APP_GIT_SHA.substring(0, 7) : 'dev'}</a></p>
         <p><Twemoji emoji="🌟" /> By <a href="https://zachary.lol" target="_blank" rel="noreferrer">Zachary</a> and <a href="https://github.com/zacimac/warnable/graphs/contributors" target="_blank" rel="noreferrer">contribuitors</a></p>
       </div>
     </div>
