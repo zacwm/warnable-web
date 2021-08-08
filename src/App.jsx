@@ -6,7 +6,7 @@ import HomePage from './Routes/Home';
 export default function App() {
   return (
     <>
-      <Router basename={process.env.PUBLIC_URL}>
+      <Router basename="/">
         <Switch>
           { /* # Editor */}
           <Route path="/editor/NotFound" exact> <ErrorPage type="editorCode" /> </Route>
