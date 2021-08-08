@@ -6,6 +6,8 @@ jobs:
   website:
     name: Website
     runs-on: ubuntu-latest
+    env:
+      COMMIT_HASH: %H
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
