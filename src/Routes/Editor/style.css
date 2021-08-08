@@ -205,8 +205,7 @@
   flex-direction: column;
 }
 
-.punishList .punishItem,
-.createItem {
+.punishList .punishItem, .createItem {
   display: flex;
   flex-direction: row;
   background: rgba(255, 255, 255, 0.15);
