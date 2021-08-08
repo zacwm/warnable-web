@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import Editor from './Routes/Editor';
 import ErrorPage from './Routes/ErrorPage';
 import HomePage from './Routes/Home';
@@ -6,7 +6,7 @@ import HomePage from './Routes/Home';
 export default function App() {
   return (
     <>
-      <Router>
+      <HashRouter basename="/">
         <Switch>
           { /* # Editor */}
           <Route path="/editor/NotFound" exact> <ErrorPage type="editorCode" /> </Route>
@@ -16,7 +16,7 @@ export default function App() {
           { /* # 404 */ }
           <Route path="/*" exact> <ErrorPage type="noPage" /> </Route>
         </Switch>
-      </Router>
+      </HashRouter>
     </>
   );
 };
