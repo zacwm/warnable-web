@@ -122,11 +122,16 @@ export default function Editor() {
                 { CurrentPage === 3 && <Channels SessionData={SessionData} EditData={EditData} setEdit={setEditData} /> }
               </div>
             </>
-          ) : <p>Loading...</p>
+          ) : (
+            <div className="loadingDisplay">
+              <p>Fetching data to edit...</p>
+              <p>Try refreshing if it's taking too long.</p>
+            </div>
+          )
         }
       </div>
       <div className="Footer">
-        <p><a href="https://github.com/zacimac/warnable-web" target="_blank" rel="noreferrer">warnable-web</a> @ <a href={ `https://github.com/zacimac/warnable-web/commit/${process.env.REACT_APP_GIT_SHA || ''}` } target="_blank" rel="noreferrer">{process.env.REACT_APP_GIT_SHA || 'unknown'}</a></p>
+        <p><a href="https://github.com/zacimac/warnable-web" target="_blank" rel="noreferrer">warnable-web</a>@<a href={ `https://github.com/zacimac/warnable-web/commit/${process.env.REACT_APP_GIT_SHA || ''}` } target="_blank" rel="noreferrer">{process.env.REACT_APP_GIT_SHA || 'unknown'}</a></p>
         <p><Twemoji emoji="🌟" /> By <a href="https://zachary.lol" target="_blank" rel="noreferrer">Zachary</a> and <a href="https://github.com/zacimac/warnable/graphs/contributors" target="_blank" rel="noreferrer">contribuitors</a></p>
       </div>
     </div>

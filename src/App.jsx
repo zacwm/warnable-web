@@ -1,7 +1,6 @@
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import Editor from './Routes/Editor';
 import ErrorPage from './Routes/ErrorPage';
-import HomePage from './Routes/Home';
 
 export default function App() {
   return (
@@ -12,7 +11,10 @@ export default function App() {
           <Route path="/editor/NotFound" exact> <ErrorPage type="editorCode" /> </Route>
           <Route path="/editor/:code" exact children={<Editor />} />
           { /* # Home */ }
-          <Route path="/" exact> <HomePage /> </Route>
+          <Route path="/" exact component={() => { 
+            window.location.href = 'https://github.com/zacimac/warnable'; 
+            return null;
+          }}/>
           { /* # 404 */ }
           <Route path="/*" exact> <ErrorPage type="noPage" /> </Route>
         </Switch>
