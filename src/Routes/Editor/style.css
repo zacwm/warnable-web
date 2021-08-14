@@ -225,6 +225,24 @@
   font-weight: 600;
 }
 
+.punishList .punishItem .sub {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.5em;
+  padding: 0 15px;
+}
+
+.punishList .punishItem .itemIndex {
+  margin-right: 5px;
+  border-right: solid 2px #dddddd33;
+}
+
+.punishList .punishItem .btnDeleteItem {
+  margin-right: 5px;
+  cursor: pointer;
+}
+
 .punishList .punishItem .main {
   flex-grow: 1;
   padding: 10px;
@@ -248,18 +266,18 @@
   border: none;
   padding: 3px 0;
   width: 50px;
+  color: #333;
   text-align: center;
-  border-radius: 5px;
+  border-radius: 3px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 1em;
+  font-size: .95em;
+  font-weight: 600;
 }
 
-.punishList .punishItem .btnDeleteItem {
-  font-size: 1.5em;
-  margin-right: 5px;
-  cursor: pointer;
+.punishList .punishItem .smt {
+  margin-top: 10px;
 }

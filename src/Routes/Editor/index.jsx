@@ -60,7 +60,21 @@ export default function Editor() {
 
       setEditData({
         // Punishments
-        
+        punishments: [
+          {
+            rangeMin: 0,
+            rangeMax: 6,
+            actionType: 'mute',
+            tempTime: '1d'
+          },
+          {
+            rangeMin: 7,
+            rangeMax: 15,
+            actionType: 'ban',
+            tempTime: '1d'
+          }
+        ],
+
         // AutoMod
         modEnabledInvites: true,
         modInvites: ['1234567890'],
