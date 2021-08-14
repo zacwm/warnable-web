@@ -13,7 +13,7 @@ export default function EditorPage({ SessionData, EditData, setEdit }) {
       <div className="EditableItem">
         <div className="punishList">
           {
-            EditData.punishments.map((v, i) => (
+            EditData.punishments?.map((v, i) => (
               <div className="punishItem">
                 <div className="sub itemIndex">
                   <span>{i + 1}.</span>
