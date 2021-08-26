@@ -7,12 +7,14 @@ import Punishments from './Punishments';
 import AutoMod from './AutoMod';
 import Roles from './Roles';
 import Channels from './Channels';
+import Save from './Save';
 
 export default function Editor() {
   let { code } = useParams();
   const [SessionData, setSessionData] = useState();
   const [EditData, setEditData] = useState({});
   const [CurrentPage, setCurrentPage] = useState(0); // 0 = Punis., 1 = Auto, 2 = Roles, 3 = Chann.
+  const [SaveState, setSaveState] = useState(); // 1 = Saving, 2 = Failed to save, String = Save code to apply.
 
   useEffect(() => {
     console.dir(code);
@@ -118,15 +120,18 @@ export default function Editor() {
             <>
               <div className="Nav">
                 <div className="NavQA">
-                  <button onClick={() => { setCurrentPage(0) }}>Punishments</button>
-                  <button onClick={() => { setCurrentPage(1) }}>AutoMod</button>
-                  <button onClick={() => { setCurrentPage(2) }}>Roles</button>
-                  <button onClick={() => { setCurrentPage(3) }}>Channels</button>
+                  <button className={SaveState === 1 ? 'disabled' : ''} onClick={() => { SaveState !== 1 && setCurrentPage(1) }}>AutoMod</button>
+                  <button className={SaveState === 1 ? 'disabled' : ''} onClick={() => { SaveState !== 1 && setCurrentPage(0) }}>Punishments</button>
+                  <button className={SaveState === 1 ? 'disabled' : ''} onClick={() => { SaveState !== 1 && setCurrentPage(2) }}>Roles</button>
+                  <button className={SaveState === 1 ? 'disabled' : ''} onClick={() => { SaveState !== 1 && setCurrentPage(3) }}>Channels</button>
                 </div>
                 <div className="NavQP">
                   <p>Editing session from:</p>
                   <p>3:41 PM, 2 August 2021</p>
-                  <button><Twemoji emoji="💾" /> Save</button>
+                  <button onClick={() => {
+                    if (SaveState === 1) return;
+                    setSaveState(1); setCurrentPage(4);
+                  }}><Twemoji emoji="💾" /> {SaveState === 1 ? 'Saving...' : 'Save'}</button>
                 </div>
               </div>
               <div className="Page">
@@ -134,6 +139,7 @@ export default function Editor() {
                 { CurrentPage === 1 && <AutoMod SessionData={SessionData} EditData={EditData} setEdit={setEditData} /> }
                 { CurrentPage === 2 && <Roles SessionData={SessionData} EditData={EditData} setEdit={setEditData} /> }
                 { CurrentPage === 3 && <Channels SessionData={SessionData} EditData={EditData} setEdit={setEditData} /> }
+                { CurrentPage === 4 && <Save SessionData={SessionData} EditData={EditData} SaveState={SaveState} /> }
               </div>
             </>
           ) : (
