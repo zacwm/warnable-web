@@ -9,6 +9,7 @@ export default function App() {
         <Switch>
           { /* # Editor */}
           <Route path="/editor/NotFound" exact> <ErrorPage type="editorCode" /> </Route>
+          <Route path="/editor/ServerError" exact> <ErrorPage type="serverError" /> </Route>
           <Route path="/editor/:code" exact children={<Editor />} />
           { /* # Home */ }
           <Route path="/" exact component={() => { 

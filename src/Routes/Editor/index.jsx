@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Twemoji from '../../Components/Twemoji';
 import { useParams } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
 import AssetGitHubLogo from '../../assets/GitHub-Mark-Light-64px.png';
 import './style.css';
@@ -11,6 +12,7 @@ import Channels from './Channels';
 import Save from './Save';
 
 export default function Editor() {
+  const history = useHistory();
   let { code } = useParams();
   const [SessionData, setSessionData] = useState();
   const [EditData, setEditData] = useState({});
@@ -18,73 +20,31 @@ export default function Editor() {
   const [SaveState, setSaveState] = useState(); // 1 = Saving, 2 = Failed to save, String = Save code to apply.
 
   useEffect(() => {
-    console.dir(code);
-    setTimeout(() => { // just a placeholder to put an actual request for data.
-      /* 
-       * Set the session data.
-       * This is data that will not be changed from values.
-       * It is also used as an undo/revert for edited items.
-       */
-      const tempSession = {
-        name: 'Example Server',
-        id: '1234',
-        roles: [
-          { value: '1234567890', label: 'Alien' },
-          { value: '3554534576', label: 'Mods' },
-          { value: '2304892340', label: 'Helpers' },
-          { value: '1409834985', label: 'Mini Mods' },
-          { value: '1982049771', label: 'Earthlings' },
-        ],
-        channels: [
-          { value: '8388299193', label: '#warn-log' },
-          { value: '3987437761', label: '#general' },
-          { value: '9817471663', label: '#user-log' },
-          { value: '8877189840', label: '#message-log' },
-          { value: '9823987664', label: '#punish-log' },
-          { value: '9483590873', label: '#spammy-ufo' },
-        ],
-
-        editData: {
-          // Punishments
-          punishments: [
-            {
-              rangeMin: 0,
-              rangeMax: 6,
-              actionType: 'mute',
-              tempTime: '1d'
-            },
-            {
-              rangeMin: 7,
-              rangeMax: 15,
-              actionType: 'ban',
-              tempTime: '1d'
-            }
-          ],
-
-          // AutoMod
-          modEnabledInvites: true,
-          modInvites: ['1234567890'],
-          modEnabledWords: true,
-          modWords: ['tomato', 'apple', 'carrot'],
-
-          // Roles
-          rolesAdmins: ['1234567890'],
-          rolesMods: ['3554534576'],
-          rolesViewers: ['2304892340', '1409834985'],
-          rolesImmune: ['1234567890', '2304892340'],
-          rolesMuted: '1982049771',
-
-          // Channels
-          channelWarn: '123',
-          channelPunish: '123',
-          channelUser: '123',
-          channelMessage: '123'
+    Axios.get(`https://warnableeditapi.zachary.lol/get-session/${code}`)
+      .then(response => {
+        if (response.status === 200) {
+          console.dir('AHAHHAHAHAHAHHAHA');
+          console.dir(response.data);
+          setSessionData(response.data);
+          setEditData(response.data.editData);
         }
-      };
-
-      setSessionData(tempSession);
-      setEditData(tempSession.editData);
-    }, 1000);
+        else {
+          history.push('/editor/ServerError');
+        }
+      })
+      .catch((err) => {
+        if (err.response) {
+          switch (err.response.status) {
+            case 404:
+              history.push('/editor/NotFound');
+              break;
+            default:
+              history.push('/editor/ServerError');
+          }
+        } else {
+          history.push('/editor/ServerError');
+        }
+      });
 
     window.addEventListener('beforeunload', function (e) {
       let confMsg = "You have unsaved changes! All changes could be lost!";
@@ -92,15 +52,14 @@ export default function Editor() {
       e.returnValue = confMsg;
       return confMsg;
     });
-  }, [code]);
+  }, [code, history]);
 
   function saveEditSession() {
     if (SaveState === 1) return;
     setSaveState(1);
     setCurrentPage(4);
-    Axios.post('https://warnableeditapi.zachary.lol/save-web', { data: { guildId: SessionData.id, editData: EditData } })
+    Axios.post('https://warnableeditapi.zachary.lol/save-session', { data: { ...SessionData, editData: EditData } })
       .then(response => {
-        console.dir(response.status);
         switch (response.status) {
           case 200:
             setSaveState(response.data.code);
@@ -110,12 +69,17 @@ export default function Editor() {
         }
       })
       .catch((err) => {
-        switch (err.response.status) {
-          case 429:
-            setSaveState(3);
-            break;
-          default:
-            setSaveState(2);
+        if (err.response) {
+          switch (err.response.status) {
+            case 429:
+              setSaveState(3);
+              break;
+            default:
+              setSaveState(2);
+          }
+        }
+        else {
+          setSaveState(2);
         }
       });
   }

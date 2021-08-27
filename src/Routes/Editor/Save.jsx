@@ -48,8 +48,8 @@ export default function EditorPage({ SaveState }) {
           SaveState === 3 && (
             <>
               <p className="MainText">Too fast!</p>
-              <p>Server told us that you're making too many saves.</p>
-              <p>You can only make a save once per minute.</p>
+              <p>The server told us that you're making too many saves in a short time.</p>
+              <p>Try again in a couple minutes</p>
             </>
           )
         }

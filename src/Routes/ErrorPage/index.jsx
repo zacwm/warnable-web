@@ -16,6 +16,14 @@ export default function ErrorPage({ type }) {
           '• The code is invalid - Check the link/code provided is correct.'
         ])
         break;
+      case 'serverError':
+        setErrorTitle('Server error!');
+        setErrorBody([
+          'Check that:',
+          '• You have an internet connection - It\'s Possible that the server is unreachable but this website is cached in your browser.',
+          '• Maybe we\'re having issues - Tweet at me (@zacimac) or contact me on Discord: Zachary#0001.'
+        ])
+        break;
       default:
         setErrorTitle('Unknown error!');
     }
