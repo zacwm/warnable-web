@@ -28,19 +28,28 @@ export default function EditorPage({ SaveState }) {
             </>
           )
         }
-        {
+        { // Awaiting server response
           SaveState === 1 && (
             <>
               <p className="MainText">Saving...</p>
-              <p>This shouldn't long...</p>
+              <p>This shouldn't take long...</p>
             </>
           )
         }
-        {
+        { // Fail
           SaveState === 2 && (
             <>
               <p className="MainText">Failed to save!</p>
               <p>Try again or send me a message on Discord: Zachary#0001</p>
+            </>
+          )
+        }
+        { // Rate limit
+          SaveState === 3 && (
+            <>
+              <p className="MainText">Too fast!</p>
+              <p>Server told us that you're making too many saves.</p>
+              <p>You can only make a save once per minute.</p>
             </>
           )
         }

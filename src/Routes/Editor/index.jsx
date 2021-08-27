@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Twemoji from '../../Components/Twemoji';
 import { useParams } from 'react-router';
+import Axios from 'axios';
 import AssetGitHubLogo from '../../assets/GitHub-Mark-Light-64px.png';
 import './style.css';
 import Punishments from './Punishments';
@@ -24,7 +25,7 @@ export default function Editor() {
        * This is data that will not be changed from values.
        * It is also used as an undo/revert for edited items.
        */
-      setSessionData({
+      const tempSession = {
         name: 'Example Server',
         id: '1234',
         roles: [
@@ -44,58 +45,45 @@ export default function Editor() {
         ],
 
         editData: {
-          automod: {
-            invites: {
-              enabled: true,
-              excluded: []
+          // Punishments
+          punishments: [
+            {
+              rangeMin: 0,
+              rangeMax: 6,
+              actionType: 'mute',
+              tempTime: '1d'
             },
-            badwords: {
-              enabled: true,
-              words: []
+            {
+              rangeMin: 7,
+              rangeMax: 15,
+              actionType: 'ban',
+              tempTime: '1d'
             }
-          },
-          roles: {
+          ],
 
-          }
+          // AutoMod
+          modEnabledInvites: true,
+          modInvites: ['1234567890'],
+          modEnabledWords: true,
+          modWords: ['tomato', 'apple', 'carrot'],
+
+          // Roles
+          rolesAdmins: ['1234567890'],
+          rolesMods: ['3554534576'],
+          rolesViewers: ['2304892340', '1409834985'],
+          rolesImmune: ['1234567890', '2304892340'],
+          rolesMuted: '1982049771',
+
+          // Channels
+          channelWarn: '123',
+          channelPunish: '123',
+          channelUser: '123',
+          channelMessage: '123'
         }
-      });
+      };
 
-      setEditData({
-        // Punishments
-        punishments: [
-          {
-            rangeMin: 0,
-            rangeMax: 6,
-            actionType: 'mute',
-            tempTime: '1d'
-          },
-          {
-            rangeMin: 7,
-            rangeMax: 15,
-            actionType: 'ban',
-            tempTime: '1d'
-          }
-        ],
-
-        // AutoMod
-        modEnabledInvites: true,
-        modInvites: ['1234567890'],
-        modEnabledWords: true,
-        modWords: ['tomato', 'apple', 'carrot'],
-
-        // Roles
-        rolesAdmins: ['1234567890'],
-        rolesMods: ['3554534576'],
-        rolesViewers: ['2304892340', '1409834985'],
-        rolesImmune: ['1234567890', '2304892340'],
-        rolesMuted: '1982049771',
-
-        // Channels
-        channelWarn: '123',
-        channelPunish: '123',
-        channelUser: '123',
-        channelMessage: '123'
-      })
+      setSessionData(tempSession);
+      setEditData(tempSession.editData);
     }, 1000);
 
     window.addEventListener('beforeunload', function (e) {
@@ -105,6 +93,32 @@ export default function Editor() {
       return confMsg;
     });
   }, [code]);
+
+  function saveEditSession() {
+    if (SaveState === 1) return;
+    setSaveState(1);
+    setCurrentPage(4);
+    Axios.post('https://warnableeditapi.zachary.lol/save-web', { data: { guildId: SessionData.id, editData: EditData } })
+      .then(response => {
+        console.dir(response.status);
+        switch (response.status) {
+          case 200:
+            setSaveState(response.data.code);
+            break;
+          default:
+            setSaveState(2);
+        }
+      })
+      .catch((err) => {
+        switch (err.response.status) {
+          case 429:
+            setSaveState(3);
+            break;
+          default:
+            setSaveState(2);
+        }
+      });
+  }
 
   return (
     <div className="EditorParent">
@@ -128,10 +142,7 @@ export default function Editor() {
                 <div className="NavQP">
                   <p>Editing session from:</p>
                   <p>3:41 PM, 2 August 2021</p>
-                  <button onClick={() => {
-                    if (SaveState === 1) return;
-                    setSaveState(1); setCurrentPage(4);
-                  }}><Twemoji emoji="💾" /> {SaveState === 1 ? 'Saving...' : 'Save'}</button>
+                  <button onClick={() => { saveEditSession(); }}><Twemoji emoji="💾" /> {SaveState === 1 ? 'Saving...' : 'Save'}</button>
                 </div>
               </div>
               <div className="Page">
