@@ -1,3 +1,5 @@
+**Archived... Just going to include a built-in web panel that can also display and edit warnings and settings.**
+
 # warnable-web
 
 The website for the [Warnable](https://github.com/zacimac/warnable) homepage and v3 editor.
